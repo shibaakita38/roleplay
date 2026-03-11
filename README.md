@@ -1,2 +1,0 @@
-
-https://docs.github.com/es/pages/quickstart
