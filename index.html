@@ -27,11 +27,38 @@
             </div>
         </section>
 
+        <section class="controls" aria-label="Search and Filter Controls">
+            <div class="controls-container">
+                <input type="text" id="search-input" placeholder="Search projects..." aria-label="Search projects">
+                <select id="category-filter" aria-label="Filter by category">
+                    <option value="all">All Categories</option>
+                    <!-- Categories injected by JS -->
+                </select>
+            </div>
+        </section>
+
+        <section id="status-container" aria-live="polite">
+            <div id="loading-spinner" class="hidden">
+                <div class="spinner"></div>
+                <p>Loading projects...</p>
+            </div>
+            <div id="error-message" class="error-msg hidden"></div>
+        </section>
+
         <section id="data-container" aria-label="Portfolio Projects" class="project-grid">
             <!-- Dynamic content injected by JavaScript -->
         </section>
     </main>
 
-    <script src="js/app.js" type="module"></script>
+    <dialog id="details-modal" class="modal">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn" aria-label="Close modal">&times;</button>
+            <div id="modal-body">
+                <!-- Modal content injected by JS -->
+            </div>
+        </div>
+    </dialog>
+
+    <script src="js/main.js" type="module"></script>
 </body>
 </html>
