@@ -13,8 +13,9 @@
         <nav aria-label="Main Navigation">
             <div class="logo">Portfolio SPA</div>
             <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
+                <li><a href="#home">Home</a></li>
                 <li><a href="#data-container">Projects</a></li>
+                <li><a href="#in-god-we-trust">In God We Trust</a></li>
             </ul>
             <button id="theme-toggle" aria-label="Toggle Dark/Light Mode" aria-pressed="false">
                 <span class="theme-icon" aria-hidden="true">🌓</span>
@@ -24,15 +25,7 @@
     </header>
 
     <main>
-        <section id="hero" class="hero-section" aria-labelledby="hero-title">
-            <h1 id="hero-title">Welcome to My Portfolio</h1>
-            <p class="subtitle">Showcasing high-quality, accessible web experiences.</p>
-            <button class="cta-button" onclick="document.getElementById('data-container').scrollIntoView({behavior: 'smooth'})">View My Work</button>
-        </section>
-
-        <section id="data-container" aria-label="Portfolio Projects">
-            <!-- Dynamic content will be injected here -->
-        </section>
+        <!-- Content will be dynamically injected by the hash router -->
     </main>
 </body>
 </html>

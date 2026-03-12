@@ -2,9 +2,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
-    renderProjects();
-    setupIntersectionObserver();
+    handleHashChange();
 });
+
+window.addEventListener('hashchange', handleHashChange);
 
 // Mock Portfolio Data
 const portfolioProjects = [
@@ -51,6 +52,89 @@ const portfolioProjects = [
         imageUrl: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800"
     }
 ];
+
+// Router Logic
+let animationFrameId;
+
+function handleHashChange() {
+    const hash = window.location.hash;
+    const mainContainer = document.querySelector('main');
+
+    // Stop any running animations to prevent memory leaks
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    if (hash === '#in-god-we-trust') {
+        mainContainer.innerHTML = inGodWeTrustView();
+        startBouncingAnimation();
+    } else {
+        // Default to home for #home, empty hash, or unknown routes
+        mainContainer.innerHTML = homeView();
+        renderProjects();
+        setupIntersectionObserver();
+    }
+}
+
+function homeView() {
+    return `
+        <section id="hero" class="hero-section" aria-labelledby="hero-title">
+            <h1 id="hero-title">Welcome to My Portfolio</h1>
+            <p class="subtitle">Showcasing high-quality, accessible web experiences.</p>
+            <button class="cta-button" onclick="document.getElementById('data-container').scrollIntoView({behavior: 'smooth'})">View My Work</button>
+        </section>
+
+        <section id="data-container" aria-label="Portfolio Projects">
+            <!-- Dynamic content will be injected here -->
+        </section>
+    `;
+}
+
+function inGodWeTrustView() {
+    return `
+        <div style="width: 100vw; height: 100vh; overflow: hidden; position: relative; background: black;">
+            <img id="bouncing-meme" src="https://i.ytimg.com/vi/XcA1E2p40I0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDEyYlS-8SrK_iCP_WsHbTWlo4DwQ" alt="In God We Trust" style="position: absolute; width: 300px; border-radius: 15px;">
+        </div>
+    `;
+}
+
+// Bouncing Animation Logic
+function startBouncingAnimation() {
+    const meme = document.getElementById('bouncing-meme');
+    if (!meme) return;
+
+    let x = 0;
+    let y = 0;
+    let vx = 4;
+    let vy = 4;
+
+    function animate() {
+        if (!meme) return;
+
+        const rect = meme.getBoundingClientRect();
+
+        // Bounce off right or left
+        if (x + rect.width >= window.innerWidth || x <= 0) {
+            vx = -vx;
+        }
+
+        // Bounce off bottom or top
+        if (y + rect.height >= window.innerHeight || y <= 0) {
+            vy = -vy;
+        }
+
+        x += vx;
+        y += vy;
+
+        meme.style.left = `${x}px`;
+        meme.style.top = `${y}px`;
+
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    animationFrameId = requestAnimationFrame(animate);
+}
 
 // Theme Toggle Logic
 function initTheme() {
