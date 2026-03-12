@@ -138,6 +138,76 @@ const renderProjects = () => {
     initIntersectionObserver();
 };
 
+// Routing & In God We Trust Logic
+let explosionInterval = null;
+
+const createExplosion = () => {
+    const igwtContainer = document.getElementById('igwt-container');
+    if (!igwtContainer) return;
+
+    const particle = document.createElement('div');
+    particle.classList.add('explosion-particle');
+
+    // Random color
+    const hue = Math.floor(Math.random() * 360);
+    particle.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
+
+    // Random position (along the edges mostly, but can be anywhere)
+    const randX = Math.random() * 100;
+    const randY = Math.random() * 100;
+    particle.style.left = `${randX}vw`;
+    particle.style.top = `${randY}vh`;
+
+    igwtContainer.appendChild(particle);
+
+    // Remove particle after animation
+    setTimeout(() => {
+        particle.remove();
+    }, 800);
+};
+
+const handleRoute = () => {
+    const hash = window.location.hash;
+    const mainContainer = document.querySelector('main');
+
+    // Clear any existing explosion intervals
+    if (explosionInterval) {
+        clearInterval(explosionInterval);
+        explosionInterval = null;
+    }
+
+    if (hash === '#in-god-we-trust') {
+        // Render In God We Trust Page
+        mainContainer.innerHTML = `
+            <div id="igwt-container">
+                <img id="center-meme" src="https://i.ytimg.com/vi/XcA1E2p40I0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDEyYlS-8SrK_iCP_WsHbTWlo4DwQ" alt="In God We Trust">
+            </div>
+        `;
+
+        // Start random explosion effects (every 500-800ms)
+        const generateExplosions = () => {
+            createExplosion();
+            const nextTimeout = Math.floor(Math.random() * (800 - 500 + 1)) + 500;
+            explosionInterval = setTimeout(generateExplosions, nextTimeout);
+        };
+        generateExplosions();
+    } else {
+        // Render Standard Portfolio UI (for #home or empty)
+        mainContainer.innerHTML = `
+            <section id="hero" class="hero-section container">
+                <h1>Welcome to My Creative Space</h1>
+                <p>I build accessible, responsive, and high-performance web applications.</p>
+                <a href="#data-container" class="btn-primary" role="button">View My Work</a>
+            </section>
+
+            <section id="data-container" class="container" aria-label="Portfolio Projects">
+                <!-- Dynamic content will be injected here -->
+            </section>
+        `;
+        renderProjects();
+    }
+};
+
 // Intersection Observer for scroll animations
 const initIntersectionObserver = () => {
     const observerOptions = {
@@ -166,10 +236,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize theme
     initTheme();
 
-    // Render projects
-    renderProjects();
+    // Initial Route Handling
+    handleRoute();
 
     // Attach event listeners
+    window.addEventListener('hashchange', handleRoute);
+
     const themeToggleBtn = document.getElementById(THEME_TOGGLE_ID);
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', toggleTheme);
