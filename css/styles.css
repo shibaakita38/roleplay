@@ -1,0 +1,235 @@
+:root {
+    /* Light Theme Variables */
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --bg-color: #f4f7f6;
+    --text-color: #333333;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --header-bg: rgba(255, 255, 255, 0.9);
+
+    /* Spacing & Layout */
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 32px;
+    --spacing-xl: 64px;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+body.dark-theme {
+    /* Dark Theme Overrides */
+    --primary-color: #64ffda;
+    --secondary-color: #bb86fc;
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: rgba(30, 30, 30, 0.8);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --header-bg: rgba(18, 18, 18, 0.9);
+    --box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    scroll-behavior: smooth;
+}
+
+/* Accessibility classes */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Header & Navigation */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    transition: background-color var(--transition-speed) ease;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-md);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color var(--transition-speed) ease;
+}
+
+.nav-links a:hover, .nav-links a:focus {
+    color: var(--primary-color);
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: var(--spacing-sm);
+    border-radius: 50%;
+    transition: transform var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(80, 227, 194, 0.1) 100%);
+}
+
+#hero-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-color);
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-lg);
+    max-width: 600px;
+}
+
+.cta-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1.1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    box-shadow: var(--box-shadow);
+}
+
+.cta-button:hover, .cta-button:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--secondary-color);
+}
+
+/* Data Container (Grid Layout) */
+#data-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Project Cards */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.card:hover, .card:focus-within {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-content {
+    padding: var(--spacing-md);
+}
+
+.card-category {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+/* Animation Utilities */
+.fade-in {
+    animation: fadeInAnimation 0.6s forwards ease-out;
+}
+
+@keyframes fadeInAnimation {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
