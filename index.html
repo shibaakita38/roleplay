@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A high-quality, fully responsive, and accessible Single Page Application (SPA).">
+    <title>Modern SPA Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="sticky-header">
+        <nav aria-label="Main Navigation">
+            <div class="logo" aria-hidden="true">SPA Portfolio</div>
+            <button id="theme-toggle" aria-label="Toggle Dark/Light Mode">
+                <span class="theme-icon" aria-hidden="true">🌗</span>
+                <span class="sr-only">Toggle Theme</span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-content">
+                <h1 id="hero-heading">Welcome to My Modern Portfolio</h1>
+                <p class="subtitle">Showcasing high-quality, responsive, and accessible web development.</p>
+                <button class="cta-button" aria-label="View My Projects">View Projects</button>
+            </div>
+        </section>
+
+        <section id="data-container" aria-label="Portfolio Projects" class="project-grid">
+            <!-- Dynamic content injected by JavaScript -->
+        </section>
+    </main>
+
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
