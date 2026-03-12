@@ -48,9 +48,76 @@ const projects = [
 ];
 
 /**
+ * Views
+ */
+const homeView = () => `
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+            <h1 id="hero-title">Welcome to My Portfolio</h1>
+            <p class="subtitle">Building high-quality, fully responsive, and accessible web experiences.</p>
+            <button class="cta-button" aria-label="View my projects">View My Work</button>
+        </div>
+    </section>
+
+    <section id="data-container" class="data-container" aria-labelledby="projects-title">
+        <div class="section-header">
+            <h2 id="projects-title">My Projects</h2>
+        </div>
+        <div class="grid-container" id="projects-grid" role="list">
+            <!-- Dynamic content will be injected here via JavaScript -->
+        </div>
+    </section>
+`;
+
+const aboutView = () => `
+    <section class="page-section" aria-labelledby="about-title">
+        <div class="container">
+            <h1 id="about-title">About Me</h1>
+            <div class="about-content">
+                <p>Hello! I am a passionate frontend developer dedicated to crafting modern, accessible, and highly responsive web applications. With a strong focus on clean code and user experience, I leverage vanilla JavaScript and modern CSS techniques to build seamless Single Page Applications.</p>
+                <h2>My Skills</h2>
+                <ul class="skills-list" role="list">
+                    <li>HTML5 Semantic Markup</li>
+                    <li>CSS3 (Grid, Flexbox, Custom Properties)</li>
+                    <li>Vanilla JavaScript (ES6+)</li>
+                    <li>Accessibility (a11y)</li>
+                    <li>Responsive Web Design</li>
+                    <li>Web Performance Optimization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+`;
+
+const contactView = () => `
+    <section class="page-section" aria-labelledby="contact-title">
+        <div class="container">
+            <h1 id="contact-title">Contact Me</h1>
+            <div class="contact-form-container">
+                <form id="contact-form" class="contact-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required aria-required="true" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required aria-required="true" placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required aria-required="true" placeholder="Your message..."></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+`;
+
+/**
  * DOM Elements Selection
  */
-const projectsGrid = document.getElementById('projects-grid');
+const mainContent = document.getElementById('main-content');
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentYearSpan = document.getElementById('current-year');
 
@@ -59,7 +126,9 @@ const currentYearSpan = document.getElementById('current-year');
  * Injects project data as HTML cards into the DOM
  */
 const renderProjects = () => {
-    projectsGrid.innerHTML = '';
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
     projects.forEach(project => {
         const card = document.createElement('article');
@@ -78,7 +147,7 @@ const renderProjects = () => {
             </div>
         `;
 
-        projectsGrid.appendChild(card);
+        grid.appendChild(card);
     });
 };
 
@@ -137,6 +206,43 @@ const setupThemeToggle = () => {
 };
 
 /**
+ * Router
+ * Handles hash-based navigation to render appropriate views
+ */
+const router = () => {
+    let hash = window.location.hash || '#home';
+
+    // Normalize hash for unknown routes
+    if (!['#home', '#about', '#contact'].includes(hash)) {
+        hash = '#home';
+        window.history.replaceState(null, '', hash);
+    }
+
+    switch (hash) {
+        case '#home':
+            mainContent.innerHTML = homeView();
+            // Re-render projects and re-attach observer for the home view
+            renderProjects();
+            requestAnimationFrame(() => {
+                setupIntersectionObserver();
+            });
+            break;
+        case '#about':
+            mainContent.innerHTML = aboutView();
+            break;
+        case '#contact':
+            mainContent.innerHTML = contactView();
+            break;
+        default:
+            mainContent.innerHTML = homeView();
+            break;
+    }
+
+    // Scroll to top on route change
+    window.scrollTo(0, 0);
+};
+
+/**
  * Initialize Application
  */
 const init = () => {
@@ -145,14 +251,10 @@ const init = () => {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
-    renderProjects();
     setupThemeToggle();
-
-    // Ensure the DOM is fully painted before setting up the observer
-    requestAnimationFrame(() => {
-        setupIntersectionObserver();
-    });
+    router(); // Initial route check
 };
 
-// Run initialization when DOM is loaded
+// Event Listeners for initialization and routing
 document.addEventListener('DOMContentLoaded', init);
+window.addEventListener('hashchange', router);
