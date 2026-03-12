@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A high-quality, fully responsive, and accessible Single Page Application showcasing a modern UI design and dynamic portfolio projects.">
+    <title>Modern SPA Portfolio</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="sticky-header">
+        <nav aria-label="Main Navigation">
+            <div class="logo">
+                <a href="/" aria-label="Home">Portfolio SPA</a>
+            </div>
+            <div class="nav-controls">
+                <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">
+                    <span class="theme-icon light-icon" aria-hidden="true">☀️</span>
+                    <span class="theme-icon dark-icon" aria-hidden="true" style="display: none;">🌙</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 id="hero-title">Welcome to My Portfolio</h1>
+                <p class="hero-subtitle">Discover my latest projects and creative endeavors.</p>
+                <a href="#data-container" class="btn btn-primary">View Projects</a>
+            </div>
+        </section>
+
+        <section id="data-container" aria-label="Portfolio Projects">
+            <!-- Dynamic content will be injected here by app.js -->
+        </section>
+    </main>
+
+    <script type="module" src="/js/app.js"></script>
+</body>
+</html>
